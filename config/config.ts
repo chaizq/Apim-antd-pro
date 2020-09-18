@@ -93,6 +93,12 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
+  // proxy: {
+  //   '/di/': {
+  //     target: 'http://10.4.46.33:8000/',
+  //     changeOrigin: true,
+  //   },
+  // },
   manifest: {
     basePath: '/',
   },

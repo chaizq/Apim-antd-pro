@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, Col, message, Modal, Row } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import DataSet from '@antv/data-set';
 import numeral from 'numeral';
 import ReactDOM from 'react-dom';
@@ -14,6 +14,7 @@ import {
   toFixedNum,
 } from '@/utils/Apim/apimUtils';
 import TimeBar from '@/pages/Monitor/Service/Timebar/timeBar';
+import { BarChartOutlined } from '@ant-design/icons';
 import styles from './performanceChart.less';
 
 const Now = new Date();
@@ -46,7 +47,7 @@ class PerformanceChart extends Component {
   }
 
   // 可以接收动态传值并在render()之前更新state
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     // nextProps接收父组件中props传值的变化情况，父组件中current变化，nextProps.current值变化
     const { current, invokeStaticData } = this.props;
 
@@ -508,11 +509,11 @@ class PerformanceChart extends Component {
         },
       }).then(response => {
         let res = null;
-        if (!response || response.code !== 200) {
+        if (!response) {
           message.error('获取该项服务数据失败');
           return;
         }
-        res = response.body;
+        res = response;
         if (res instanceof Object) {
           const singleChartData = [];
           let dateTitle = '';
@@ -530,7 +531,7 @@ class PerformanceChart extends Component {
             if (modalCurrent.end - modalCurrent.start <= 86400000) {
               const tempDate = new Date(item.key);
               dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
-                1}-${tempDate.getDate()}]`;
+              1}-${tempDate.getDate()}]`;
 
               temp.label = oneDayTimestampToDate(item.key);
             } else {
@@ -635,19 +636,22 @@ class PerformanceChart extends Component {
         </Modal>
 
         <Row>
-          <span className={styles.currentText}>
-            {currentText}
-            <span className={styles.staticTitle}>&nbsp;服务资源性能情况</span>
+          <Col span={20}>
+             <span className={styles.currentText}>{currentText}
+             <span className={styles.staticTitle}>&nbsp;服务资源性能情况</span>
+          </span>
+          </Col>
+          <Col span={4}>
             <Button
-              icon="bar-chart"
+              icon={<BarChartOutlined />}
               onClick={() => {
                 showMoreInfo();
               }}
-              style={{ marginTop: '7px', float: 'right' }}
+              style={{ marginTop: '7px', float: 'right',background: '#e6f7ff', borderRadius:'10px' }}
             >
               更多
             </Button>
-          </span>
+          </Col>
         </Row>
         <Row
           type="flex"
@@ -657,12 +661,14 @@ class PerformanceChart extends Component {
         >
           <Col span={12}>
             <Card bordered className={styles.labelCard} style={{ borderLeft: 'none' }}>
-              <Col span={12} className={styles.labelText}>
-                平均响应时间(ms)
-              </Col>
-              <Col span={12} className={styles.value}>
-                {toFixedNum(avgExecuteTimeRes, 2)}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  平均响应时间(ms)
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {toFixedNum(avgExecuteTimeRes, 2)}
+                </Col>
+              </Row>
             </Card>
           </Col>
 
@@ -682,12 +688,14 @@ class PerformanceChart extends Component {
 
           <Col span={12}>
             <Card className={styles.labelCard} style={{ borderRight: 'none' }}>
-              <Col span={12} className={styles.labelText}>
-                平均TPS
-              </Col>
-              <Col span={12} className={styles.value}>
-                {topTPS < 0.001 ? '< 0.001' : toFixedNum(topTPS, 3)}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  平均TPS
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {topTPS < 0.001 ? '< 0.001' : toFixedNum(topTPS, 3)}
+                </Col>
+              </Row>
               {/* <Col span={12} className={styles.value}>{topTPS}</Col> */}
             </Card>
           </Col>

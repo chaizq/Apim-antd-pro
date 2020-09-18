@@ -12,7 +12,7 @@ module.exports = {
   pwa: true,
   iconfontUrl: '',
   homepage: '/home',
- 
+
   // 内部集成的产品信息(大驼峰命名)
   eurekaProducts: ['DataModel'],
   // 外部集成的产品信息(大驼峰命名)
@@ -29,4 +29,5 @@ module.exports = {
     DataCatalog: ['apimConsoleService', 'apimGatewayService', 'mmService'],
     DataModel: ['dsdService'],
   },
+  gatewayUrl :'http://10.4.46.34:8040',
 };

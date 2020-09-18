@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'dva';
+import {connect, Link} from 'umi';
 import { Row, Col, Card, Modal, List, message, Avatar } from 'antd';
 import {
   oneDayTimestampToDate,
@@ -7,6 +7,7 @@ import {
   drawSingleSerMixChart,
   editTypeMap,
 } from '@/utils/Apim/apimUtils';
+import backImg from "@/assets/dcat/monitor/banner-monitor.png";
 import styles from './index.less';
 import ResourceChart from './ResourceChart/resourceChart';
 import PerformanceChart from './PerformanceChart/performanceChart';
@@ -45,14 +46,13 @@ class ConsoleHomeView extends Component {
     this.getInvokeStaticData(current);
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState, nextContext) {
     const { current } = this.state;
 
     if (nextState.current !== current) {
       this.getInvokeStaticData(nextState.current);
     }
   }
-
   // 接收TimeBar组件传的起止时间戳
   transValue = val => {
     this.setState({
@@ -113,11 +113,11 @@ class ConsoleHomeView extends Component {
       },
     }).then(response => {
       let res = null;
-      if (!response || response.code !== 200) {
+      if (!response) {
         message.error('获取该项服务数据失败');
         return;
       }
-      res = response.body;
+      res = response;
       if (res instanceof Object) {
         const singleChartData = [];
         let dateTitle = '';
@@ -183,11 +183,11 @@ class ConsoleHomeView extends Component {
       },
     }).then(response => {
       let res = null;
-      if (!response || response.code !== 200) {
+      if (!response) {
         message.error('获取全部服务列表失败');
         return;
       }
-      res = response.body;
+      res = response;
       if (res instanceof Object) {
         const apiListRes = res.aggregations.api_ids;
         const apiListResArr = [];
@@ -213,7 +213,6 @@ class ConsoleHomeView extends Component {
 
   getInvokeStaticData = current => {
     const { dispatch } = this.props;
-
     dispatch({
       type: 'gatewayConsole/getInvokeStaticData',
       payload: {
@@ -222,12 +221,7 @@ class ConsoleHomeView extends Component {
         topK: 20,
       },
     }).then(response => {
-      let res = null;
-      if (response.code !== 200) {
-        message.error('获取服务元数据失败！');
-        return;
-      }
-      res = response.body;
+      let res = response;
       if (res instanceof Object) {
         this.setState({ invokeStaticData: res });
       } else {
@@ -245,7 +239,7 @@ class ConsoleHomeView extends Component {
         <div>
           <Row>
             <Col span={24} className={styles.monitorBgCol}>
-              <div className={styles.monitorBgDiv}> </div>
+              <img className={styles.monitorBgDiv} src={backImg} />
             </Col>
           </Row>
         </div>

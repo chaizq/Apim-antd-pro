@@ -93,17 +93,19 @@ const doRequest = (url, option) => {
       if (status === 401) {
         // @HACK
         /* eslint-disable no-underscore-dangle */
-        window.g_app._store.dispatch({
-          type: 'login/fetchLogout',
-        });
+        // 非登录状态路由登出跳转
+        // window.g_app._store.dispatch({
+        //   type: 'login/fetchLogout',
+        // });
       }
     });
   if (result) {
     result.then(res => {
       if (res && res.code === 401 && window.location.pathname !== homepage) {
-        window.g_app._store.dispatch({
-          type: 'login/fetchLogout',
-        });
+        // 非登录状态路由登出跳转
+        // window.g_app._store.dispatch({
+        //   type: 'login/fetchLogout',
+        // });
       }
     });
   }

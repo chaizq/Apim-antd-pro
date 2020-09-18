@@ -38,6 +38,10 @@ export default {
     getDeveloperByAccountResult: {},
     updateAppSecretResult: {},
     isDeveloperResult: null,
+    globalStaticData: {
+      a:'aa'
+    }
+
   },
 
   effects: {
@@ -46,7 +50,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *createDeveloper(action, { call, put }) {
+      *createDeveloper(action, { call, put }) {
       const { account } = action.payload;
       if (account) {
         const createDeveloperResult = yield call(createDeveloper, account);
@@ -70,7 +74,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *getDeveloperByAccount(action, { call, put }) {
+      *getDeveloperByAccount(action, { call, put }) {
       const { account } = action.payload;
       if (account) {
         const getDeveloperByAccountResult = yield call(getDeveloperByAccount, account);
@@ -93,7 +97,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *getPlatformDeveloper(action, { call }) {
+      *getPlatformDeveloper(action, { call }) {
       const { account } = action.payload;
       if (account) {
         const getDeveloperByAccountResult = yield call(getPlatformDeveloper, account);
@@ -113,7 +117,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *updateAppSecret(action, { call, put }) {
+      *updateAppSecret(action, { call, put }) {
       const { account } = action.payload;
       if (account) {
         const updateAppSecretResult = yield call(updateAppSecret, account);
@@ -137,7 +141,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *isDeveloper(action, { call, put }) {
+      *isDeveloper(action, { call, put }) {
       const { account } = action.payload;
       if (account) {
         const isDeveloperResult = yield call(isDeveloper, account);
@@ -157,7 +161,7 @@ export default {
     /**
      * 转换json
      */
-    *transcation(action, { call }) {
+      *transcation(action, { call }) {
       const data = action.payload;
       const response = yield call(transApiParameters, data);
       return response;
@@ -168,7 +172,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *getRestApplications(action, { call }) {
+      *getRestApplications(action, { call }) {
       const data = action.payload;
       const response = yield call(getRestApplications, data);
       return response;
@@ -179,13 +183,13 @@ export default {
       const response = yield call(saveOrUpdataApi, data);
       return response;
     },
-    
+
     /**
      * 心跳检测开关
-     * @param {*} action 
-     * @param {*} param1 
+     * @param {*} action
+     * @param {*} param1
      */
-    *updateHeartbeat(action, { call }) {
+      *updateHeartbeat(action, { call }) {
       const data = action.payload;
       return yield call(updateHeartbeat, data);
     },
@@ -237,7 +241,7 @@ export default {
      * @param {*} action
      * @param {*} param1
      */
-    *getServices(action, { call }) {
+      *getServices(action, { call }) {
       const data = action.payload;
       const response = yield call(getServices, data);
       return response;
@@ -267,9 +271,18 @@ export default {
      * @param {*} param1
      */
 
-    *getGlobalStaticData(action, { call }) {
+    *getGlobalStaticData(action, { call, put }) {
       const data = action.payload;
       const response = yield call(getGlobalStaticData, data);
+      debugger
+      if (response) {
+        yield put({
+          type: 'setState',
+          payload: {
+            globalStaticData:response,
+          },
+        });
+      }
       return response;
     },
 
@@ -284,7 +297,7 @@ export default {
      * @param {*} _
      * @param {*} action 请求体参数
      */
-    *getServiceFailure(action, { call, put }) {
+      *getServiceFailure(action, { call, put }) {
       const data = action.payload;
       const getServiceFailureResult = yield call(getServiceFailure, data);
       if (getServiceFailureResult && getServiceFailureResult.code === 200) {
@@ -304,7 +317,7 @@ export default {
      * @param {*} _
      * @param {*} action 请求体参数
      */
-    *deleteServiceFailureById(action, { call, put }) {
+      *deleteServiceFailureById(action, { call, put }) {
       const data = action.payload;
       const deleteServiceFailureByIdResult = yield call(deleteServiceFailureById, data);
       if (deleteServiceFailureByIdResult && deleteServiceFailureByIdResult.code === 200) {
@@ -324,10 +337,10 @@ export default {
      * @param {*} _
      * @param {*} action 请求体参数
      */
-    *getInvokeApiList(action, { call, put }) {
+      *getInvokeApiList(action, { call, put }) {
       const data = action.payload;
       const getInvokeApiListResult = yield call(getInvokeApiList, data);
-      if (getInvokeApiListResult && getInvokeApiListResult.code === 200) {
+      if (getInvokeApiListResult) {
         yield put({
           type: 'setState',
           payload: {
@@ -344,7 +357,7 @@ export default {
      * @param {*} _
      * @param {*} action 请求体参数
      */
-    *getInvokeApiInfo(action, { call, put }) {
+      *getInvokeApiInfo(action, { call, put }) {
       const data = action.payload;
       const getInvokeApiInfoResult = yield call(getInvokeApiInfo, data);
       if (getInvokeApiInfoResult && getInvokeApiInfoResult.code === 200) {
@@ -363,7 +376,7 @@ export default {
      * @param {*} _
      * @param {*} action 服务列表中的ID
      */
-    *getServiceFailureById(action, { call, put }) {
+      *getServiceFailureById(action, { call, put }) {
       const data = action.payload;
       const getServiceFailureByIdResult = yield call(getServiceFailureById, data);
       if (getServiceFailureByIdResult && getServiceFailureByIdResult.code === 200) {
@@ -382,7 +395,7 @@ export default {
      * @summary: 获取服务地图统计数据
      * @param {*} action 请求体参数
      */
-    *getServiceMapStaticData(action, { call }) {
+      *getServiceMapStaticData(action, { call }) {
       const data = action.payload;
       return yield call(getServiceMapStaticData, data);
     },
@@ -390,6 +403,7 @@ export default {
 
   reducers: {
     setState(state, action) {
+      debugger
       return {
         ...state,
         ...action.payload,

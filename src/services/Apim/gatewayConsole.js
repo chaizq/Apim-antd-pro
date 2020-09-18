@@ -1,4 +1,5 @@
-import request from '@/utils/Platform/request';
+// import request from '@/utils/Platform/request';
+import request from '@/utils/Apim/request';
 import { getSessionCache } from '@/utils/Platform/platformUtil';
 
 /**
@@ -323,7 +324,7 @@ export async function getSoapMethod(data) {
 export function getGlobalStaticData(data) {
   const diToken = getSessionCache('diToken');
   if (data) {
-    const globalStaticUrl = `/di/DataCatalog/apimConsoleService/ws/gateway/service/getGlobalStaticData?diToken=${diToken}`;
+    const globalStaticUrl = `/console/ws/gateway/service/getGlobalStaticData?diToken=${diToken}`;
     return request(globalStaticUrl, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -338,7 +339,7 @@ export function getInvokeStaticData(data) {
   const diToken = getSessionCache('diToken');
   if (data) {
     const { start, end, topK } = data;
-    const InvokeStaticUrl = `/di/DataCatalog/apimConsoleService/ws/gateway/service/getInvokeStaticData?diToken=${diToken}&start=${start}&end=${end}&topK=${topK}`;
+    const InvokeStaticUrl = `/console/ws/gateway/service/getInvokeStaticData?diToken=${diToken}&start=${start}&end=${end}&topK=${topK}`;
     return request(InvokeStaticUrl, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -385,7 +386,7 @@ export function getInvokeApiList(data) {
   const diToken = getSessionCache('diToken');
   const { start, end } = data;
   if (data) {
-    const reqUrl = `/di/DataCatalog/apimConsoleService/ws/gateway/service/getInvokeApiList?start=${start}&end=${end}&diToken=${diToken}`;
+    const reqUrl = `/console/ws/gateway/service/getInvokeApiList?start=${start}&end=${end}&diToken=${diToken}`;
     return request(reqUrl, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -403,7 +404,7 @@ export function getInvokeApiInfo(data) {
   const diToken = getSessionCache('diToken');
   const { apiId, start, end } = data;
   if (data) {
-    const reqUrl = `/di/DataCatalog/apimConsoleService/ws/gateway/service/getInvokeApiInfo?apiId=${apiId}&start=${start}&end=${end}&diToken=${diToken}`;
+    const reqUrl = `/console/ws/gateway/service/getInvokeApiInfo?apiId=${apiId}&start=${start}&end=${end}&diToken=${diToken}`;
     return request(reqUrl, {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',

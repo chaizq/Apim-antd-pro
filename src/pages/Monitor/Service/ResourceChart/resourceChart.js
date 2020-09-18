@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Row, Col, Modal, message, Button } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import DataSet from '@antv/data-set';
 import numeral from 'numeral';
 
@@ -16,6 +16,7 @@ import {
   drawSingleSerLineChart,
 } from '@/utils/Apim/apimUtils';
 import TimeBar from '@/pages/Monitor/Service/Timebar/timeBar';
+import {BarChartOutlined} from "@ant-design/icons";
 import styles from './resourceChart.less';
 
 const Now = new Date();
@@ -75,7 +76,7 @@ class ResourceChart extends Component {
     this.getResourceData(invokeStaticData);
   }
 
-  componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps = nextProps => {
     // nextProps接收父组件中props传值的变化情况，父组件中current变化，nextProps.current值变化
     const { current, invokeStaticData } = this.props;
 
@@ -200,11 +201,11 @@ class ResourceChart extends Component {
         },
       }).then(response => {
         let res = null;
-        if (!response || response.code !== 200) {
+        if (!response) {
           message.error('获取该项服务数据失败');
           return;
         }
-        res = response.body;
+        res = response;
         if (res instanceof Object) {
           const singleChartData = [];
           let dateTitle = '';
@@ -222,7 +223,7 @@ class ResourceChart extends Component {
             if (modalCurrent.end - modalCurrent.start <= 86400000) {
               const tempDate = new Date(item.key);
               dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
-                1}-${tempDate.getDate()}]`;
+              1}-${tempDate.getDate()}]`;
 
               temp.label = oneDayTimestampToDate(item.key);
             } else {
@@ -682,19 +683,25 @@ class ResourceChart extends Component {
         </Modal>
 
         <Row>
-          <span className={styles.currentText}>
+          <Col span={20}>
+             <span className={styles.currentText}>
             {currentText}
-            <span className={styles.staticTitle}>&nbsp;服务资源情况</span>
+               <span className={styles.staticTitle}>&nbsp;服务资源情况</span>
+
+          </span>
+          </Col>
+          <Col span={4}>
             <Button
-              icon="bar-chart"
+              icon={<BarChartOutlined />}
               onClick={() => {
                 showMoreInfo();
               }}
-              style={{ marginTop: '7px', float: 'right' }}
+              style={{ marginTop: '7px', float: 'right',background: '#e6f7ff', borderRadius:'10px' }}
             >
               更多
             </Button>
-          </span>
+          </Col>
+
         </Row>
         <Row
           type="flex"
@@ -704,56 +711,69 @@ class ResourceChart extends Component {
         >
           <Col style={{ width: '20%' }}>
             <Card className={styles.labelCard} style={{ borderLeft: 'none' }}>
-              <Col span={12} className={styles.labelText}>
-                调用服务总数
-              </Col>
-              <Col span={12} className={styles.value}>
-                {serviceCountRes}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  调用服务总数
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {serviceCountRes}
+                </Col>
+              </Row>
+
             </Card>
           </Col>
 
           <Col style={{ width: '20%' }}>
             <Card className={styles.labelCard}>
-              <Col span={12} className={styles.labelText}>
-                UV量
-              </Col>
-              <Col span={12} className={styles.value}>
-                {UVCountRes}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  UV量
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {UVCountRes}
+                </Col>
+              </Row>
+
             </Card>
           </Col>
 
           <Col style={{ width: '20%' }}>
             <Card className={styles.labelCard}>
-              <Col span={12} className={styles.labelText}>
-                调用量
-              </Col>
-              <Col span={12} className={styles.value}>
-                {serviceInvkCountRes}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  调用量
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {serviceInvkCountRes}
+                </Col>
+              </Row>
+
             </Card>
           </Col>
 
           <Col style={{ width: '20%' }}>
             <Card className={styles.labelCard}>
-              <Col span={12} className={styles.labelText}>
-                调用错误量
-              </Col>
-              <Col span={12} className={styles.value}>
-                {serviceInvkErrorCountRes}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  调用错误量
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {serviceInvkErrorCountRes}
+                </Col>
+              </Row>
             </Card>
           </Col>
 
           <Col style={{ width: '20%' }}>
             <Card className={styles.labelCard} style={{ borderRight: 'none' }}>
-              <Col span={12} className={styles.labelText}>
-                调用错误率
-              </Col>
-              <Col span={12} className={styles.value}>
-                {numToPercent(errorRate, 2)}
-              </Col>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  调用错误率
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {numToPercent(errorRate, 2)}
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>

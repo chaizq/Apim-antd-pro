@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Row, Col, message } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import styles from './pageTitle.less';
 
-@connect(() => ({}))
+@connect((example) => ({
+  // 命名空间未生效
+  globalStaticData: example.gatewayConsole.globalStaticData
+  // globalStaticData: 'aaa'
+
+}))
 class PageTitle extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +18,68 @@ class PageTitle extends Component {
 
   componentDidMount() {
     this.getGlobalData();
-    this.getApiData();
+    // this.getApiData();
+
+
+    /*const { dispatch, globalStaticData } = this.props;
+    dispatch({
+      type: 'gatewayConsole/getGlobalStaticData',
+      payload: {},
+    }).then(res =>{
+      console.log(res)
+      console.log('global',globalStaticData)
+    })
+    console.log('globalA',globalStaticData)
+    dispatch({
+      type: 'monitor/getApiAnalyzeStatisticInfo',
+    })*/
+
+
+    // this.getGlobalDataNew()
   }
+
+  getGlobalDataNew = () => {
+    const { globalStaticData } = this.props;
+    let res = globalStaticData;
+    console.log('res',res)
+
+
+    // let res;
+
+
+    // if (globalStaticData.code !== 200) {
+    //   message.error('获取全局统计数据失败！');
+    //   // console.log(response.message);
+    //   return;
+    // }
+    // res = globalStaticData.body;
+
+    // res ={"serviceErrorCountRes":{"hits":[],"total":573,"aggregations":{"api_ids":{"value":54}}},"totalAvgExecuteTimeRes":{"hits":[],"total":1235,"aggregations":{"avg_execute_time":{"value":241.12793522267208}}},"totalIvkCount":{"hits":[],"total":1235,"aggregations":{}},"totalIvkErrorCountRes":{"hits":[],"total":573,"aggregations":{}},"_map_":"true"}
+    if (res instanceof Object) {
+      const totalIvkCount = res.totalIvkCount.total;
+      const totalIvkErrorCountRes = res.totalIvkErrorCountRes.total;
+
+      let totalAvgExecuteTimeRes;
+      // let serviceErrorCountRes;
+      if (JSON.stringify(res.totalAvgExecuteTimeRes.aggregations) === '{}') {
+        totalAvgExecuteTimeRes = 0;
+      } else {
+        totalAvgExecuteTimeRes = res.totalAvgExecuteTimeRes.aggregations.avg_execute_time.value;
+      }
+      // if (JSON.stringify(res.serviceErrorCountRes.aggregations) === "{}"){serviceErrorCountRes = '--'} else {
+      //   serviceErrorCountRes = res.serviceErrorCountRes.aggregations.api_ids.value; // 异常服务数
+      // }
+
+      this.setState({
+        totalIvkCount,
+        totalIvkErrorCountRes,
+        totalAvgExecuteTimeRes,
+        // serviceErrorCountRes
+      });
+    } else {
+      message.error('获取全局统计数据失败！');
+    }
+  };
 
   getGlobalData = () => {
     const { dispatch } = this.props;
@@ -22,13 +87,8 @@ class PageTitle extends Component {
       type: 'gatewayConsole/getGlobalStaticData',
       payload: {},
     }).then(response => {
-      let res = null;
-      if (response.code !== 200) {
-        message.error('获取全局统计数据失败！');
-        // console.log(response.message);
-        return;
-      }
-      res = response.body;
+      let res = response
+      // res = response.body;
       if (res instanceof Object) {
         const totalIvkCount = res.totalIvkCount.total;
         const totalIvkErrorCountRes = res.totalIvkErrorCountRes.total;
@@ -131,14 +191,14 @@ class PageTitle extends Component {
           </Col>
 
           <Col span={7} className={styles.titleCard}>
-            <Col span={4} className={styles.boxShort}>
+            <Col className={styles.boxShort}>
               <div className={styles.text}>服务总数</div>
               <div className={styles.value} style={{ textDecoration: 'underline' }}>
                 {apiDistCount}
               </div>
             </Col>
 
-            <Col span={4} className={styles.boxLong}>
+            <Col className={styles.boxLong}>
               <Row gutter={16}>
                 <Col span={12} className={styles.textSmall}>
                   异常服务总数
