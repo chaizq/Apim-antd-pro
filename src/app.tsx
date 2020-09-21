@@ -15,13 +15,14 @@ export async function getInitialState(): Promise<{
   // 如果是登录页面，不执行
   if (history.location.pathname !== '/user/login') {
     try {
-      const currentUser = await queryCurrent();
-      return {
-        currentUser,
-        settings: defaultSettings,
-      };
+      // const currentUser = await queryCurrent();
+      // return {
+      //   currentUser,
+      //   settings: defaultSettings,
+      // };
     } catch (error) {
-      history.push('/user/login');
+      history.push('/monitor');
+      // history.push('/user/login');
     }
   }
   return {
@@ -37,12 +38,12 @@ export const layout = ({
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    footerRender: () => <Footer />,
+    // footerRender: () => <Footer />,
     onPageChange: () => {
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser?.userid && history.location.pathname !== '/user/login') {
-        history.push('/user/login');
-      }
+      // if (!initialState?.currentUser?.userid && history.location.pathname !== '/user/login') {
+      //   history.push('/user/login');
+      // }
     },
     menuHeaderRender: undefined,
     ...initialState?.settings,

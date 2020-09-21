@@ -5,6 +5,7 @@ import proxy from './proxy';
 
 const { REACT_APP_ENV } = process.env;
 
+// @ts-ignore
 export default defineConfig({
   hash: true,
   antd: {},
@@ -31,6 +32,11 @@ export default defineConfig({
   },
   // umi routes: https://umijs.org/docs/routing
   routes: [
+    // 首页
+    {
+      path: '/',
+      redirect: '/monitor',
+    },
     {
       path: '/user',
       layout: false,
@@ -71,14 +77,10 @@ export default defineConfig({
     },
     {
       path: '/monitor',
+      layout: false,
       name: 'monitor',
       icon: 'smile',
       component: './Monitor/Service/index',
-      // component: './Monitor/Service/Welcome',
-    },
-    {
-      path: '/',
-      redirect: '/welcome',
     },
     {
       component: './404',
@@ -100,6 +102,11 @@ export default defineConfig({
   //   },
   // },
   manifest: {
-    basePath: '/',
+    basePath: './',
+  },
+  base:'./',
+  publicPath:'./',
+  history:{
+    type:"hash"
   },
 });

@@ -20,7 +20,7 @@
     "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
     "precommit": "lint-staged",
     "prettier": "prettier -c --write \"src/**/*\"",
-    "start": "umi dev",
+    "start": "umi dev --port=8084",
     "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "start:no-ui": "cross-env UMI_UI=none umi dev",
@@ -50,6 +50,7 @@
     "@ant-design/pro-layout": "^6.4.16",
     "@ant-design/pro-table": "^2.7.2",
     "@antv/data-set": "^0.11.6",
+    "@babel/core": "^7.11.6",
     "antd": "^4.6.3",
     "bizcharts": "^3.4.3",
     "classnames": "^2.2.6",
@@ -62,6 +63,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet-async": "^1.0.4",
+    "react-scripts": "^3.4.3",
     "umi": "^3.2.20",
     "umi-request": "^1.0.8",
     "use-merge-value": "^1.0.1"
@@ -101,6 +103,7 @@
     "stylelint": "^13.0.0",
     "typescript": "^3.9.7"
   },
+  "homepage": ".",
   "engines": {
     "node": ">=10.0.0"
   }
