@@ -8,6 +8,7 @@ import {
   editTypeMap,
 } from '@/utils/Apim/apimUtils';
 import backImg from "@/assets/dcat/monitor/banner-monitor.png";
+import { AreaChartOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import ResourceChart from './ResourceChart/resourceChart';
 import PerformanceChart from './PerformanceChart/performanceChart';
@@ -304,7 +305,7 @@ class ConsoleHomeView extends Component {
                     renderItem={item => (
                       <List.Item>
                         <List.Item.Meta
-                          avatar={<Avatar icon="area-chart" />}
+                          avatar={<Avatar icon={<AreaChartOutlined />} />}
                           title={<a onClick={this.apiTitleClick.bind(this, item)}>{item.title}</a>}
                           description={`类型：${editTypeMap[item.type]}`}
                         />
