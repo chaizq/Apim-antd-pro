@@ -32,7 +32,7 @@ class TimeBar extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { initValue } = this.props;
     if (initValue !== nextProps.initValue) {
       this.getButtonCurrent(nextProps.initValue, map[nextProps.initValue]);
@@ -133,7 +133,7 @@ class TimeBar extends Component {
 
   change = t => {
     if (t < 10) {
-      return '0' + t;
+      return `0${t}`;
     }
     return t;
   };

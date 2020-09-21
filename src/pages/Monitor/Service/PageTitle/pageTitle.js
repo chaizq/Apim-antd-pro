@@ -181,20 +181,25 @@ class PageTitle extends Component {
           <Col span={7} className={styles.titleCard}>
             <Col className={styles.box}>
               <div className={styles.text}>接入机构</div>
-              <div className={styles.value}>{orgCount}</div>
+              {/* <div className={styles.value}>{orgCount}</div> */}
+              <div className={styles.value}>11</div>
             </Col>
 
             <Col className={styles.box}>
               <div className={styles.text}>接入系统</div>
-              <div className={styles.value}>{userCount}</div>
+              {/*<div className={styles.value}>{userCount}</div>*/}
+              <div className={styles.value}>2</div>
             </Col>
           </Col>
 
           <Col span={7} className={styles.titleCard}>
             <Col className={styles.boxShort}>
               <div className={styles.text}>服务总数</div>
-              <div className={styles.value} style={{ textDecoration: 'underline' }}>
+              {/* <div className={styles.value} style={{ textDecoration: 'underline' }}>
                 {apiDistCount}
+              </div> */}
+              <div className={styles.value}>
+                【--】
               </div>
             </Col>
 
@@ -213,8 +218,11 @@ class PageTitle extends Component {
                 <Col span={12} className={styles.textSmall} style={{ marginTop: '10px' }}>
                   订阅服务总数
                 </Col>
-                <Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
+                {/*<Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
                   {apiSubCount}
+                </Col>*/}
+                <Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
+                  【--】
                 </Col>
               </Row>
             </Col>

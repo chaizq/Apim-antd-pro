@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {connect, Link} from 'umi';
+import { connect } from 'umi';
 import { Row, Col, Card, Modal, List, message, Avatar } from 'antd';
 import {
   oneDayTimestampToDate,
@@ -15,7 +15,7 @@ import PageTitle from './PageTitle/pageTitle';
 import TimeBar from './Timebar/timeBar';
 
 // import FrameBreadcrumb from '@/components/PageBreadcrumb/FrameBreadcrumb';
-
+const Now = new Date();
 @connect(({ loading, login }) => ({
   // currentUser: login.currentUser,
   // currentUserLoading: loading.effects['login/fetchCurrentUser'],
@@ -26,10 +26,12 @@ class ConsoleHomeView extends Component {
     this.state = {
       // 设置初始页面时间戳,今日时间
       current: {
-        start: new Date(new Date().toLocaleDateString()).getTime(),
-        end: new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1,
-        text: '今日',
+        start: new Date(Now.getFullYear(), 0, 1).getTime(),
+        end: new Date(Now.getFullYear() + 1, 0, 1) - 1,
+        text: '本年',
       },
+
+
       invokeStaticData: {},
       invokeApiList: [],
       apiListModalVisible: false,
@@ -53,6 +55,7 @@ class ConsoleHomeView extends Component {
       this.getInvokeStaticData(nextState.current);
     }
   }
+
   // 接收TimeBar组件传的起止时间戳
   transValue = val => {
     this.setState({
@@ -221,7 +224,7 @@ class ConsoleHomeView extends Component {
         topK: 20,
       },
     }).then(response => {
-      let res = response;
+      const res = response;
       if (res instanceof Object) {
         this.setState({ invokeStaticData: res });
       } else {
@@ -239,7 +242,7 @@ class ConsoleHomeView extends Component {
         <div>
           <Row>
             <Col span={24} className={styles.monitorBgCol}>
-              <img className={styles.monitorBgDiv} src={backImg} />
+              <img alt='background img' className={styles.monitorBgDiv} src={backImg} />
             </Col>
           </Row>
         </div>
@@ -255,7 +258,7 @@ class ConsoleHomeView extends Component {
           <PageTitle />
           <Row className={styles.timeBarRow}>
             <Col span={22}>
-              <TimeBar transValue={this.transValue} initValue="今日" />
+              <TimeBar transValue={this.transValue} initValue="本年" />
             </Col>
             <Col span={2}>
               {/* <Button
@@ -303,7 +306,7 @@ class ConsoleHomeView extends Component {
                         <List.Item.Meta
                           avatar={<Avatar icon="area-chart" />}
                           title={<a onClick={this.apiTitleClick.bind(this, item)}>{item.title}</a>}
-                          description={'类型：' + editTypeMap[item.type]}
+                          description={`类型：${editTypeMap[item.type]}`}
                         />
                       </List.Item>
                     )}
