@@ -77,7 +77,7 @@ export default defineConfig({
     },
     {
       path: '/monitor',
-      layout: false,
+      layout: true,
       name: 'monitor',
       icon: 'smile',
       component: './Monitor/Service/index',
@@ -104,6 +104,7 @@ export default defineConfig({
   manifest: {
     basePath: './',
   },
+  // 以下为打包成相对路径发布
   base:'./',
   publicPath:'./',
   history:{

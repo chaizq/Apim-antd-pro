@@ -186,6 +186,7 @@ class ConsoleHomeView extends Component {
         end: current.end,
       },
     }).then(response => {
+      debugger
       let res = null;
       if (!response) {
         message.error('获取全部服务列表失败');

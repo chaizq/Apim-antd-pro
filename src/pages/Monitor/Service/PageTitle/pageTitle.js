@@ -199,7 +199,7 @@ class PageTitle extends Component {
                 {apiDistCount}
               </div> */}
               <div className={styles.value}>
-                【--】
+                117
               </div>
             </Col>
 
@@ -222,7 +222,7 @@ class PageTitle extends Component {
                   {apiSubCount}
                 </Col>*/}
                 <Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
-                  【--】
+                  81
                 </Col>
               </Row>
             </Col>
